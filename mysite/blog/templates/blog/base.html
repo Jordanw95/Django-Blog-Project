@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} bootstrap {% endcomment %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JS, Popper.js, and jQuery -->
+
+    {% comment %} Medium style editor {% endcomment %}
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+    {% comment %} Custom CSS {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    {% comment %} Google Fonts {% endcomment %}
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;1,400&display=swap" rel="stylesheet">
+    <title>Blog</title>
+</head>
+<body>
+    
+    {% comment %} navbar {% endcomment %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light techfont">
+  <a class="navbar-brand bigbrand" href="{% url 'post_list' %}">My Blog</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://www.github.com">GitHub</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://www.linkedin.com">LinkedIn</a>
+        </li>
+          {% if user.is_authenticated %}
+
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'post_new' %}">New Post</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
+          </li>
+      </ul>
+        <ul class = "nav navbar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          <li class="nav-item">
+              <a class='nav-link welcometext'>Welcome {{ user.username }}</a>
+          </li> 
+        </ul>
+        {% else %}
+          <ul class="nav navbar-nav navbar-right">
+              <li class="nav-item">
+                  <a class="nav-link" href= "{% url 'login' %}">Login</a>
+              </li>
+          </ul>
+        {% endif %}
+
+  </div>
+</nav>
+    
+    {% comment %} Body block {% endcomment %}
+    <div class='content container'>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="blog_posts">
+                {% block content %}
+                {% endblock  %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
